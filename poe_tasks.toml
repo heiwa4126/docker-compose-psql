@@ -1,0 +1,58 @@
+[tasks]
+main = "docker-compose-psql"
+version = "uv run src/docker_compose_psql/show_version.py"
+select = "uv run src/docker_compose_psql/select.py"
+insert = "uv run src/docker_compose_psql/insert.py"
+insert3 = "uv run src/docker_compose_psql/insert3.py"
+delete = "uv run src/docker_compose_psql/delete.py"
+
+# ======== docker compose で PostgreSQL
+up = "docker compose up -d"
+down = "docker compose down"
+log = "docker compose logs -f"
+rmv = "docker compose down --volumes --remove-orphans"
+clean = ["down", "rmv"]
+
+# ======== postgresqlのイメージ内のpsqlを使ってみる
+psql_ver.cmd = "docker run --rm postgres:17 psql --version"
+psql_ver.help = "新しくコンテナを立ち上げてpsqlを実行"
+psql_ver2.cmd = "docker compose exec postgres psql --version"
+psql_ver2.help = "いま動いているコンテナ内でpsqlを実行"
+
+psql_ver3.shell = """
+. ./.env
+docker compose exec \
+-T -e PGPASSWORD=$POSTGRES_PASSWORD \
+postgres \
+psql -h localhost -U $POSTGRES_USER -d $POSTGRES_DB	\
+-c "select version();"
+"""
+
+psql_select.shell = """
+. ./.env
+docker compose exec -T -e PGPASSWORD="$POSTGRES_PASSWORD" postgres \
+psql -h localhost -U $POSTGRES_USER -d $POSTGRES_DB	-c\
+"select * from users;"
+"""
+
+# ======== utils
+format.shell = """
+ruff format &&
+# biome format --write . &&
+dprint fmt --config ~/dprint.json &&
+textlint --fix "**/*.md"
+"""
+
+update.shell = "uv lock -U && uv sync && uv cache prune"
+
+uvsync = "uv sync"
+requirements = "uv pip compile pyproject.toml --no-deps -o requirements.txt"
+sync = ["uvsync", "requirements"]
+
+trivy-config = "trivy config ."
+trivy-fs = "trivy fs ."
+trivy-check = ["trivy-config", "trivy-fs"]
+trivy-license = "trivy fs --scanners license --severity HIGH,CRITICAL ."
+trivy-sbom = "trivy fs --scanners vuln --format cyclonedx --output sbom.cdx.json ."
+trivy-sbom-spdx = "trivy fs --scanners vuln --format spdx-json --output sbom.spdx.json ."
+sbom = ["requirements", "trivy-sbom", "trivy-sbom-spdx"]
