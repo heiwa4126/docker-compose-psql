@@ -14,25 +14,34 @@ rmv = "docker compose down --volumes --remove-orphans"
 clean = ["down", "rmv"]
 
 # ======== postgresqlのイメージ内のpsqlを使ってみる
-psql_ver.cmd = "docker run --rm postgres:17 psql --version"
+## 中からはtrustなのでパスワードなしで入れる
+## `-e PGPASSWORD=$POSTGRES_PASSWORD` は不要
+
 psql_ver.help = "新しくコンテナを立ち上げてpsqlを実行"
-psql_ver2.cmd = "docker compose exec postgres psql --version"
+psql_ver.cmd = "docker run --rm postgres:17 psql --version"
+
 psql_ver2.help = "いま動いているコンテナ内でpsqlを実行"
+psql_ver2.cmd = "docker compose exec postgres psql --version"
 
 psql_ver3.shell = """
 . ./.env
-docker compose exec \
--T -e PGPASSWORD=$POSTGRES_PASSWORD \
-postgres \
-psql -h localhost -U $POSTGRES_USER -d $POSTGRES_DB	\
--c "select version();"
+docker compose exec -T postgres \
+psql -h localhost -U $POSTGRES_USER -d $POSTGRES_DB	-c
+"select version();"
 """
 
 psql_select.shell = """
 . ./.env
-docker compose exec -T -e PGPASSWORD="$POSTGRES_PASSWORD" postgres \
+docker compose exec -T postgres \
 psql -h localhost -U $POSTGRES_USER -d $POSTGRES_DB	-c\
-"select * from users;"
+'select * from users;'
+"""
+
+shell = "docker compose exec -it postgres bash"
+
+psql = """
+docker compose exec -it postgres bash -c
+"/usr/bin/psql -h localhost -U $POSTGRES_USER -d $POSTGRES_DB"
 """
 
 # ======== utils
