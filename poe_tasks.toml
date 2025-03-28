@@ -23,15 +23,16 @@ psql_ver.cmd = "docker run --rm postgres:17 psql --version"
 psql_ver2.help = "いま動いているコンテナ内でpsqlを実行"
 psql_ver2.cmd = "docker compose exec postgres psql --version"
 
-psql_ver3.shell = """
-. ./.env
+psql_ver3.help = "いま動いているコンテナ内でpsqlを使って `select version();` を実行"
+psql_ver3.envfile = "./.env"
+psql_ver3.cmd = """
 docker compose exec -T postgres \
 psql -h localhost -U $POSTGRES_USER -d $POSTGRES_DB	-c
 "select version();"
 """
 
-psql_select.shell = """
-. ./.env
+psql_select.envfile = "./.env"
+psql_select.cmd = """
 docker compose exec -T postgres \
 psql -h localhost -U $POSTGRES_USER -d $POSTGRES_DB	-c\
 'select * from users;'
@@ -39,8 +40,9 @@ psql -h localhost -U $POSTGRES_USER -d $POSTGRES_DB	-c\
 
 shell = "docker compose exec -it postgres bash"
 
-psql = """
-docker compose exec -it postgres bash -c
+psql.envfile = "./.env"
+psql.cmd = """
+docker compose exec -it postgres bash -c \
 "/usr/bin/psql -h localhost -U $POSTGRES_USER -d $POSTGRES_DB"
 """
 
