@@ -1,17 +1,12 @@
-import random
-import string
-
 from docker_compose_psql.env_config import connect
+from docker_compose_psql.utils import generate_random_user_data
 
 try:
     # PostgreSQL に接続
     connection = connect()
     cursor = connection.cursor()
 
-    # ランダムな名前とメールアドレスを生成
-    random_name = "".join(random.choices(string.ascii_letters, k=8))
-    random_email = f"{random_name.lower()}@example.com"
-    data_to_insert = (random_name, random_email)
+    data_to_insert = generate_random_user_data()
 
     # データを挿入
     insert_query = "INSERT INTO users (name, email) VALUES (%s, %s);"

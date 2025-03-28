@@ -7,9 +7,10 @@ try:
 
     # usersテーブルを全削除
     cursor.execute("DELETE FROM users;")
+    cursor.execute("END TRANSACTION;")  # commitだとvacuumがエラーになる。
+    # connection.commit()
 
     # バキューム処理
-    cursor.execute("END TRANSACTION;")
     cursor.execute("VACUUM;")
 
 except Exception as e:

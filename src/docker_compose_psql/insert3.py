@@ -1,14 +1,5 @@
-import random
-import string
-
 from docker_compose_psql.env_config import connect
-
-
-def generate_random_user_data():
-    random_name = "".join(random.choices(string.ascii_letters, k=8))
-    random_email = f"{random_name.lower()}@example.com"
-    return (random_name, random_email)
-
+from docker_compose_psql.utils import generate_random_user_data
 
 try:
     # PostgreSQL に接続

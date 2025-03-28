@@ -46,6 +46,25 @@ docker compose exec -it postgres bash -c \
 "/usr/bin/psql -h localhost -U $POSTGRES_USER -d $POSTGRES_DB"
 """
 
+log_all2.envfile = "./.env"
+log_all2.cmd = """
+docker compose exec -T postgres \
+psql -h localhost -U $POSTGRES_USER -d $POSTGRES_DB -X -c "ALTER SYSTEM SET log_statement='all';"
+"""
+log_none2.envfile = "./.env"
+log_none2.cmd = """
+docker compose exec -T postgres \
+psql -h localhost -U $POSTGRES_USER -d $POSTGRES_DB -c "ALTER SYSTEM RESET log_statement;"
+"""
+reload_conf.envfile = "./.env"
+reload_conf.cmd = """
+docker compose exec -T postgres \
+psql -h localhost -U $POSTGRES_USER -d $POSTGRES_DB -X -c "SELECT pg_reload_conf();"
+"""
+
+log_all = ["log_all2", "reload_conf"]
+log_none = ["log_none2", "reload_conf"]
+
 # ======== utils
 format.shell = """
 ruff format &&
