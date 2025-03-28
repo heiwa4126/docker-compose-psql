@@ -12,6 +12,7 @@ down = "docker compose down"
 log = "docker compose logs -f"
 rmv = "docker compose down --volumes --remove-orphans"
 clean = ["down", "rmv"]
+ps = "docker compose ps"
 
 # ======== postgresqlのイメージ内のpsqlを使ってみる
 ## 中からはtrustなのでパスワードなしで入れる

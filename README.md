@@ -17,6 +17,14 @@ Python 3.12。コンテナは postgres:17([参照](https://hub.docker.com/_/post
 [psycopg2](https://pypi.org/project/psycopg2/)
 を使うべき場合もあるので、ご注意ください。
 
+### restart: always
+
+(compose.yml 参照)
+なのでホストを再起動してもコンテナは自動で起動します。
+
+あと container_name: も固定なので、用途にあわせて変更すること。
+いまは「開発時むけには便利」な設定になってます。
+
 ## 実行
 
 [uv](https://docs.astral.sh/uv/getting-started/installation/) +
