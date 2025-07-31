@@ -35,21 +35,28 @@ Python 3.12。コンテナは postgres:17([参照](https://hub.docker.com/_/post
 # 準備
 uv sync
 uv tool install poethepoet
+
 # PostgreSQL起動。最初の1回だけ init.sqlが実行される
 poe up
+
 # PostgreSQLのログ表示 (tail -f的に)
 poe log
+
 # PostgreSQLのバージョン表示
 poe version
+
 # 以下 pythonを呼んでいろいろテスト
 poe select
 poe insert
 poe insert3
 poe select
+
 # userテーブル全部消し & バキューム
 poe delete
+
 # PostgreSQL終了
 poe down
+
 # PostgreSQLを停止して、composeで使っていたボリュームも消す
 poe clean
 ```
@@ -62,14 +69,19 @@ poe clean
 ```sh
 # `select version();`
 poe psql_ver3
+
 # `select * from users;`
 poe psql_select
+
 # log_statement = 'all'にしてログに全クエリが出るようにする
 poe log_all
+
 # log_statement = 'none'にもどす
 poe log_none
+
 # psqlで入る
 poe psql
+
 # bashで入る
 poe shell
 ```

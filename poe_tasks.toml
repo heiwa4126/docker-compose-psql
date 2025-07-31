@@ -74,6 +74,9 @@ dprint fmt --config ~/dprint.json &&
 textlint --fix "**/*.md"
 """
 
+check = "ruff check ./src"
+mypy = "mypy src"
+
 update.shell = "uv lock -U && uv sync && uv cache prune"
 
 uvsync = "uv sync"
@@ -83,6 +86,7 @@ sync = ["uvsync", "requirements"]
 trivy-config = "trivy config ."
 trivy-fs = "trivy fs ."
 trivy-check = ["trivy-config", "trivy-fs"]
+trivy = ["trivy-check"]
 trivy-license = "trivy fs --scanners license --severity HIGH,CRITICAL ."
 trivy-sbom = "trivy fs --scanners vuln --format cyclonedx --output sbom.cdx.json ."
 trivy-sbom-spdx = "trivy fs --scanners vuln --format spdx-json --output sbom.spdx.json ."
