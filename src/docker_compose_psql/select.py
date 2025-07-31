@@ -1,4 +1,4 @@
-from docker_compose_psql.env_config import connect
+from docker_compose_psql.connect import connect
 
 try:
     # PostgreSQL に接続

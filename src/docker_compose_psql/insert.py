@@ -1,4 +1,4 @@
-from docker_compose_psql.env_config import connect
+from docker_compose_psql.connect import connect
 from docker_compose_psql.utils import generate_random_user_data
 
 try:

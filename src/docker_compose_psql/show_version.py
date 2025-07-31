@@ -1,8 +1,8 @@
-import docker_compose_psql.env_config as env_config
+import docker_compose_psql.connect as connect
 
 try:
     # PostgreSQL に接続
-    connection = env_config.connect()
+    connection = connect.connect()
     cursor = connection.cursor()
 
     # クエリを実行
