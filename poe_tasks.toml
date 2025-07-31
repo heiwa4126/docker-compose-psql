@@ -1,10 +1,17 @@
+envfile = ".env"
+
+[env]
+RUN_BASE = "uv run src/docker_compose_psql"
+
 [tasks]
 main = "docker-compose-psql"
-version = "uv run src/docker_compose_psql/show_version.py"
-select = "uv run src/docker_compose_psql/select.py"
-insert = "uv run src/docker_compose_psql/insert.py"
-insert3 = "uv run src/docker_compose_psql/insert3.py"
-delete = "uv run src/docker_compose_psql/delete.py"
+version = "${RUN_BASE}/show_version.py"
+select = "${RUN_BASE}/select.py"
+insert = "${RUN_BASE}/insert.py"
+insert3 = "${RUN_BASE}/insert3.py"
+delete = "${RUN_BASE}/delete.py"
+
+insert_async = "${RUN_BASE}/insert_async.py"
 
 # ======== docker compose で PostgreSQL
 up = "docker compose up -d"

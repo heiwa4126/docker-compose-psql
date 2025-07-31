@@ -1,6 +1,4 @@
-import asyncpg
-
-from docker_compose_psql.connect import connect
+from docker_compose_psql.connect_async import connect_async
 from docker_compose_psql.utils import generate_random_user_data
 
 
@@ -8,12 +6,7 @@ async def insert_data():
     connection = None
     try:
         # PostgreSQL に非同期接続
-        connection = await asyncpg.connect(
-            host="localhost",
-            database="your_database",
-            user="your_user",
-            password="your_password",
-        )
+        connection = await connect_async()
 
         data_to_insert = generate_random_user_data()
 
