@@ -11,6 +11,7 @@ insert = "${RUN_BASE}/insert.py"
 insert3 = "${RUN_BASE}/insert3.py"
 delete = "${RUN_BASE}/delete.py"
 
+select_async = "${RUN_BASE}/select_async.py"
 insert_async = "${RUN_BASE}/insert_async.py"
 
 # ======== docker compose で PostgreSQL
